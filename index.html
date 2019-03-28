@@ -1,49 +1,163 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+	<title>reveal.js</title>
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/black.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section data-markdown>
+				## Haskell in practice
+
+				by Martin Taranza
+				https://github.com/trin-cz
+
+				ask questions during talk!
+
+				but not about Monads!
+			</section>
+			<section data-markdown>
+				## Beginning in Haskell
+
+				- 2008
+				- ProjectEuler - https://projecteuler.net
+				- GlxGears - https://github.com/trin-cz/glxgears-haskell
+			</section>
+			<section data-markdown>
+				## Bloodknight/Reflex
+
+				- 2010
+				- Ryan Trinkle
+				- Reflex/Reflex-dom
+			</section>
+			<section data-markdown>
+				## Erlang in Klarna
+			
+				- 2012/2013
+				- saved by immutability
+			</section>
+			<section>
+				<section data-markdown>Scrive 1 - about company</section>
+				<section data-markdown>Scrive 2 - about signing</section>
+				<section data-markdown>Scrive 3 - stack, code info</section>
+			</section>
+			<section data-markdown>
+				## React/Redux
+
+				- Very popular framework
+				- Immutability "enforced" by convention
+				- Example with clumsy update of deep immutable stucture in Javascript
+			</section>
+			<section data-markdown>
+				## Elm
+
+				- Designed against bad programmers
+				- Immutability built-in, no way around it
+				- Example with exactly the same deep structure update
+			</section>
+			<section data-markdown>
+				## Python
+
+				- Example with finding an error
+				- The error will be in mutating action in some __getter__
+			</section>
+			<section data-markdown>
+				## Haskell
+
+				- Same example, but the data/change from is apparent
+			</section>
+			<section data-markdown>
+				## Lessons learned
+
+				- Immutability, enforced, simple to use
+				- Use existing tools (avoid NotInventedHere)
+				- Test on highest level you can
+				- Aim for fast iteration cycles
+
+				### repeat this slide during talk whenever new Lesson is learned
+			</section>
+			<section>
+				<section data-markdown>
+					## Typecheck - Python
+
+					... jen se mi lip dela, kdyz soucastky daji vedet, ze k sobe pasuji. V Pythonu muzu pripojit
+					vodovodni hadici na sloni chobot a bude to nejak fungovat. Problem je, ze na ten chobot muzu
+					pripojit i trifazovou zastrcku a az potom zjistim, ze mi cirkularka nejede a mam nastvaneho slona.
+				</section>
+				<section data-markdown>Typecheck - Haskell</section>
+				<section data-markdown>Typecheck - Haskell - ghcid, type holes</section>
+			</section>
+			<section>
+				<section data-markdown>
+					## Effects - Python
+
+					- neco rict o tom, ze neni zadna kontrola
+					- na Python jsem si nezasedl, omezeni efektu nema skoro zadny jazyk
+				</section>
+				<section data-markdown>
+					## Effects - Haskell
+
+					- Monad stack
+					- same as typecheck, but for effects
+					- limit scope of what you can do (State, DB access, Logging, Throwing exceptions, Read value anywhere)</section>
+			</section>
+			<section data-markdown>
+				## Zatim nezarazene myslenky
+
+				- Tests
+				- Frontend
+				- Make it work, make it beautiful, make it fast
+				- Stack vs Cabal
+				- danger of too complex abstraction
+				- Haskell/Elm is for bad programmers
+			</section>
+			<section data-markdown>
+				## Thank you! 
+				Questions 
+
+				We are hiring
+
+				Looking for FPGA expertise
+			</section>
 		</div>
+	</div>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
-	</body>
+	<script>
+		// More info about config & dependencies:
+		// - https://github.com/hakimel/reveal.js#configuration
+		// - https://github.com/hakimel/reveal.js#dependencies
+		Reveal.initialize({
+			dependencies: [
+				{ src: 'plugin/markdown/marked.js' },
+				{ src: 'plugin/markdown/markdown.js' },
+				{ src: 'plugin/notes/notes.js', async: true },
+				{ src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+			]
+		});
+	</script>
+</body>
+
 </html>
