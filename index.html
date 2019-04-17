@@ -36,44 +36,290 @@
 
 				but not about Monads!
 			</section>
-			<section data-markdown>
-				## Beginning in Haskell
+			<section>
+				<section data-markdown>
+					## Compilation
+				</section>
+				<section data-markdown>
+					## GlxGears in Haskell
 
-				- 2008
-				- ProjectEuler - https://projecteuler.net
-				- GlxGears - https://github.com/trin-cz/glxgears-haskell
-			</section>
-			<section data-markdown>
-				## Bloodknight/Reflex
+					![](public/images/glxgears_small.png)
 
-				- 2010
-				- Ryan Trinkle
-				- Reflex/Reflex-dom
+					- rewrite in Haskell/GLUT (~400 lines)
+					- worked "somehow" after compilation
+					- https://github.com/trin-cz/glxgears-haskell
+				</section>
+
+				<section data-markdown>
+					## Why Haskell?
+
+					- (very probably) works after compilation
+				</section>
+			</section>
+			<section>
+				<section data-markdown>
+					## Immutability
+				</section>
+				<section data-markdown>
+					## Immutability - Python
+
+					```
+					class Point:
+					    def __init__(self,x,y):
+					        self.x = x
+					        self.y = y
+
+					def main():
+					    p1 = Point(5,7)
+					    p2 = p1
+					    print (p2.x, p2.y)
+					    p1.x = 211
+					    print (p2.x, p2.y)
+					```
+
+				</section>
+				<section data-markdown>
+					## Immutability - Haskell
+
+					```
+					data Point n = Point n n
+
+					pX (Point x _) = x
+
+					pY (Point _ y) = y
+
+					setX (Point x y) new_x = Point new_x y
+
+					main = do
+						let pA0 = Point 5 7
+							pB  = pA0
+						putStrLn . show $ (pX pB, pY pB)
+						let pA1 = setX pA 211
+						putStrLn . show $ (pX pB, pY pB)
+					```
+				</section>
+				<section data-markdown>
+					## Immutability - React/Redux
+
+					- Very popular framework
+					- Immutability "enforced" by convention
+					- "We don't mutate the state"
+
+					```
+					function todoApp(state = initialState, action) {
+						switch (action.type) {
+						    case SET_VISIBILITY_FILTER:
+								return Object.assign({}, state, {
+									visibilityFilter: action.filter
+								})
+						    default:
+							    return state
+						}
+					  }
+					```
+				</section>
+				<section data-markdown>
+					## Immutability - Elm
+
+					```
+					update msg state =
+						case msg of
+							SetVisibilityFilter filter ->
+								( { state | filter = filter }
+								, Cmd.none
+								)
+					```
+				</section>
+				<section data-markdown>
+					## Immutability
+
+					- devs want it
+					- easier thinking requires enforced immutability
+					- 2012/2013 Erlang in Klarna AB
+				</section>
+				<section data-markdown>
+					## Why Haskell (or Elm)?
+
+					- (very probably) works after compilation
+					- is immutable (no way around it)
+				</section>
+			</section>
+			<section>
+				<section data-markdown>
+					## Type checking
+
+					... jen se mi lip dela, kdyz soucastky daji vedet, ze k sobe pasuji. V Pythonu muzu pripojit
+					vodovodni hadici na sloni chobot a bude to nejak fungovat. Problem je, ze na ten chobot muzu
+					pripojit i trifazovou zastrcku a az potom zjistim, ze mi cirkularka nejede a mam nastvaneho slona.
+				</section>
+				<section data-markdown>
+					## Type checking - Python
+
+					```
+					def matrixMult (A, B):
+						rows_A = len(A)
+						cols_A = len(A[0])
+						rows_B = len(B)
+						cols_B = len(B[0])
+						if cols_A != rows_B:
+							print "Cannot multiply. Incorrect dimensions."
+							return
+
+						...
+					```
+
+				</section>
+				<section data-markdown>
+					## Type checking - Haskell
+
+					```
+					data Zero
+					data Succ a
+					class TLN a where
+					    fromTLN :: a -> Int
+					instance TLN Zero where
+					    fromTLN = const Zero
+					instance TLN a => TLN (Succ a) where
+					    fromTLN = 1 + fromTLN (undefined :: a)
+
+					data Matrix x y n = ...
+
+					matrixMult :: (TLN x, TLN y, TLN t, Num a)
+						=> Matrix x t a -> Matrix t y a -> Matrix x y a
+					matrixMult mA mB = ...
+					```
+				</section>
+				<section data-markdown>
+					## Type checking - React/Redux
+
+					- "We return the previous state in the default case"
+
+					```
+					function todoApp(state = initialState, action) {
+						switch (action.type) {
+							case SET_VISIBILITY_FILTER:
+								return Object.assign({}, state, {
+									visibilityFilter: action.filter
+								})
+							default:
+								return state
+						}
+					}
+					```
+				</section>
+				<section data-markdown>
+					## Type checking - Elm
+
+					```
+					update : Msg -> State -> (State, Cmd)
+					update msg state =
+						case msg of
+							SetVisibilityFilter filter ->
+								( { state | filter = filter }
+								, Cmd.none
+								)
+							_ ->
+								"Value, which does not typecheck"
+					```
+				</section>
+				<section data-markdown>
+					## Why Haskell (or Elm)?
+
+					- (very probably) works after compilation
+					- is immutable (no way around it)
+					- typechecks everything
+				</section>
+			</section>
+			<section>
+				<section data-markdown>
+					## Effects
+
+					
+				</section>
+				<section data-markdown>
+					## Effects - Python
+
+					```
+					class State:
+						def __init__(self,value):
+							self._value = value
+						def add(self, valueDiff):
+							self._value += valueDiff
+						@property
+						def value(self):
+							print "Value was read!"
+							return self._value
+
+					def main():
+						s = State(7)
+						s.add(3)
+						print s.value```
+				</section>
+				<section data-markdown>
+					## Effects - Haskell 1
+
+					```
+					data MyState = MyState Int
+
+					mystateAdd :: Int -> StateT MyState IO ()
+					mystateAdd valueDiff = do
+						MyState value <- get
+						put (MyState (value + valueDiff))
+
+					mystateValue :: StateT MyState IO Int
+					mystateValue = do
+						MyState value <- get
+						liftIO $ putStrLn "Value was read!"
+						return value```
+				</section>
+				<section data-markdown>
+					## Effects - Haskell 2
+
+					```
+					mainAction :: StateT MyState IO ()
+					mainAction = do
+						mystateAdd 3
+						value <- mystateValue
+						liftIO . putStrLn $ show value
+
+					main = runStateT mainAction (MyState 7)```
+				</section>
+				<section data-markdown>
+					## Why Haskell (or Elm)?
+
+					- (very probably) works after compilation
+					- is immutable (no way around it)
+					- typechecks everything
+					- effects are explicit
+				</section>
 			</section>
 			<section data-markdown>
-				## Erlang in Klarna
-			
-				- 2012/2013
-				- saved by immutability
+				## Benefits
+
+				- testing on higher level
+				- fast iteration cycles
+				- better understanding of data flow
+				- possibility to "scope" thinking
+				- bad programmers will do less damage
 			</section>
+
+			<section data-markdown>
+				## Scrive.com
+
+				- eSigning
+				- ~50 employees
+				- ~10 Haskell devs fully remote
+				- PostgreSQL, Java, React/Redux/Elm, AWS, ...
+				- We are hiring!
+			</section>
+			<section data-markdown>
+				## Questions
+			</section>
+<!--
 			<section>
 				<section data-markdown>Scrive 1 - about company</section>
 				<section data-markdown>Scrive 2 - about signing</section>
 				<section data-markdown>Scrive 3 - stack, code info</section>
-			</section>
-			<section data-markdown>
-				## React/Redux
-
-				- Very popular framework
-				- Immutability "enforced" by convention
-				- Example with clumsy update of deep immutable stucture in Javascript
-			</section>
-			<section data-markdown>
-				## Elm
-
-				- Designed against bad programmers
-				- Immutability built-in, no way around it
-				- Example with exactly the same deep structure update
 			</section>
 			<section data-markdown>
 				## Python
@@ -87,14 +333,11 @@
 				- Same example, but the data/change from is apparent
 			</section>
 			<section data-markdown>
-				## Lessons learned
+				## Benefits
 
-				- Immutability, enforced, simple to use
-				- Use existing tools (avoid NotInventedHere)
-				- Test on highest level you can
-				- Aim for fast iteration cycles
-
-				### repeat this slide during talk whenever new Lesson is learned
+				- testing on higher level
+				- fast iteration cycles
+				- better understanding of data flow
 			</section>
 			<section>
 				<section data-markdown>
@@ -106,6 +349,37 @@
 				</section>
 				<section data-markdown>Typecheck - Haskell</section>
 				<section data-markdown>Typecheck - Haskell - ghcid, type holes</section>
+				<section data-markdown>
+					## Typecheck - Redux
+
+					```
+					function todoApp(state = initialState, action) {
+						switch (action.type) {
+							case SET_VISIBILITY_FILTER:
+								return Object.assign({}, state, {
+									visibilityFilter: action.filter
+								})
+							default:
+							return state
+						}
+						}
+					```
+
+					- "We return the previous state in the default case"
+				</section>
+				<section data-markdown>
+					## Immutability - Elm
+
+					```
+					update : State -> Model -> ( Model, Cmd )
+					update msg state =
+						case msg of
+							SetVisibilityFilter filter ->
+								( { model | filter = filter }
+								, Cmd.none
+								)
+					```
+				</section>
 			</section>
 			<section>
 				<section data-markdown>
@@ -119,7 +393,8 @@
 
 					- Monad stack
 					- same as typecheck, but for effects
-					- limit scope of what you can do (State, DB access, Logging, Throwing exceptions, Read value anywhere)</section>
+					- limit scope of what you can do (State, DB access, Logging, Throwing exceptions, Read value
+					anywhere)</section>
 			</section>
 			<section data-markdown>
 				## Zatim nezarazene myslenky
@@ -130,15 +405,24 @@
 				- Stack vs Cabal
 				- danger of too complex abstraction
 				- Haskell/Elm is for bad programmers
+				- vyberove rizeni je skvely zajezd.
+				- neplytvejte Class a Instance. Overloading vytvari zmatek.
 			</section>
 			<section data-markdown>
-				## Thank you! 
-				Questions 
+				## Thank you!
+				Questions
 
 				We are hiring
 
 				Looking for FPGA expertise
 			</section>
+			<section data-markdown>
+				## Bloodknight/Reflex
+
+				- 2010
+				- Ryan Trinkle
+				- Reflex/Reflex-dom
+			</section>-->
 		</div>
 	</div>
 
